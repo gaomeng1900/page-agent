@@ -88,7 +88,17 @@
 	color: #dcdcaa;
 }
 
-/* JSX/TSX 标签 */
+/* HTML/XML/JSX/TSX 标签 */
+.htmlTag {
+	color: #22863a;
+	font-weight: 500;
+}
+
+:global(.dark) .htmlTag {
+	color: #7fdbca;
+}
+
+/* JSX/TSX 标签（保留兼容性） */
 .jsxTag {
 	color: #22863a;
 	font-weight: 500;

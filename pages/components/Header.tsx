@@ -21,7 +21,7 @@ export default function Header() {
 						{/* Logo */}
 						<Link
 							href="/"
-							className="flex items-center space-x-3 group flex-shrink-0"
+							className="flex items-center gap-2 sm:gap-3 group flex-shrink-0"
 							aria-label={t('header.logo_alt')}
 							onClick={() => setMobileMenuOpen(false)}
 						>
@@ -30,9 +30,13 @@ export default function Header() {
 									P
 								</span>
 							</div>
-							<div className="hidden sm:block">
-								<span className="text-xl font-bold text-gray-900 dark:text-white">page-agent</span>
-								<p className="text-xs text-gray-600 dark:text-gray-300">{t('header.slogan')}</p>
+							<div>
+								<span className="text-base sm:text-xl font-bold text-gray-900 dark:text-white block leading-tight">
+									page-agent
+								</span>
+								<p className="hidden sm:block text-xs text-gray-600 dark:text-gray-300">
+									{t('header.slogan')}
+								</p>
 							</div>
 						</Link>
 

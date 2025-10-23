@@ -41,16 +41,12 @@ function highlightSyntax(code: string): string {
 			// 2. 注释（单行和多行）
 			'//[^\\n]*|' +
 			'/\\*[\\s\\S]*?\\*/|' +
-			// 3. HTML/XML 标签（包括自闭合标签）
-			'</?[a-zA-Z][\\w.-]*(?:\\s+[a-zA-Z][\\w.-]*(?:=(?:"[^"]*"|\'[^\']*\'|[^\\s>]*))?)*\\s*/?>|' +
-			// 4. JSX/TSX 组件标签
-			'</?[A-Z][\\w.]*(?:\\s+[a-zA-Z][\\w.-]*(?:=(?:{[^}]*}|"[^"]*"|\'[^\']*\'|[^\\s>]*))?)*\\s*/?>|' +
-			// 5. 装饰器
+			// 3. 装饰器
 			'@[a-zA-Z_$][\\w$]*|' +
-			// 6. 数字（包括小数、十六进制、科学计数法）
+			// 4. 数字（包括小数、十六进制、科学计数法）
 			'\\b0[xX][0-9a-fA-F]+\\b|' +
 			'\\b\\d+\\.?\\d*(?:[eE][+-]?\\d+)?\\b|' +
-			// 7. TypeScript/JavaScript 关键字
+			// 5. TypeScript/JavaScript 关键字
 			'\\b(?:' +
 			keywords +
 			'|' +
@@ -58,17 +54,17 @@ function highlightSyntax(code: string): string {
 			'|' +
 			literals +
 			')\\b|' +
-			// 8. TypeScript 内置类型
+			// 6. TypeScript 内置类型
 			'\\b(?:' +
 			tsTypes +
 			')\\b|' +
-			// 9. 箭头函数
+			// 7. 箭头函数
 			'=>|' +
-			// 10. 函数调用（函数名后跟括号）
+			// 8. 函数调用（函数名后跟括号）
 			'\\b[a-zA-Z_$][\\w$]*(?=\\()|' +
-			// 11. 属性访问
+			// 9. 属性访问
 			'\\.[a-zA-Z_$][\\w$]*|' +
-			// 12. 运算符和特殊符号
+			// 10. 运算符和特殊符号
 			'[+\\-*/%&|^!~<>=?:]+|' +
 			'[{}\\[\\]();,.]' +
 			')',
@@ -103,7 +99,7 @@ function highlightSyntax(code: string): string {
 				return `<span class="${styles.comment}">${escapeHtml(token)}</span>`
 			}
 
-			// 2. 字符串（包括 JSON 属性名）
+			// 2. 字符串
 			if (
 				/^"([^"\\]|\\.)*"$/.test(token) ||
 				/^'([^'\\]|\\.)*'$/.test(token) ||
@@ -112,62 +108,57 @@ function highlightSyntax(code: string): string {
 				return `<span class="${styles.string}">${escapeHtml(token)}</span>`
 			}
 
-			// 3. HTML/XML 标签和 JSX/TSX 标签
-			if (/^<\/?[a-zA-Z][\w.-]*(?:\s+[^>]*)?\s*\/?>$/i.test(token)) {
-				return `<span class="${styles.htmlTag}">${escapeHtml(token)}</span>`
-			}
-
-			// 4. 数字
+			// 3. 数字
 			if (/^(0[xX][0-9a-fA-F]+|\d+\.?\d*(?:[eE][+-]?\d+)?)$/.test(token)) {
 				return `<span class="${styles.number}">${escapeHtml(token)}</span>`
 			}
 
-			// 5. 布尔值和特殊字面量
+			// 4. 布尔值和特殊字面量
 			if (new RegExp(`^(?:${literals})$`).test(token)) {
 				return `<span class="${styles.literal}">${escapeHtml(token)}</span>`
 			}
 
-			// 6. JavaScript/TypeScript 关键字
+			// 5. JavaScript/TypeScript 关键字
 			if (new RegExp(`^(?:${keywords})$`).test(token)) {
 				return `<span class="${styles.keyword}">${escapeHtml(token)}</span>`
 			}
 
-			// 7. TypeScript 特定关键字
+			// 6. TypeScript 特定关键字
 			if (new RegExp(`^(?:${tsKeywords})$`).test(token)) {
 				return `<span class="${styles.tsKeyword}">${escapeHtml(token)}</span>`
 			}
 
-			// 8. TypeScript 内置类型
+			// 7. TypeScript 内置类型
 			if (new RegExp(`^(?:${tsTypes})$`).test(token)) {
 				return `<span class="${styles.type}">${escapeHtml(token)}</span>`
 			}
 
-			// 9. 装饰器
+			// 8. 装饰器
 			if (/^@[a-zA-Z_$][\w$]*$/.test(token)) {
 				return `<span class="${styles.decorator}">${escapeHtml(token)}</span>`
 			}
 
-			// 10. 箭头函数
+			// 9. 箭头函数
 			if (token === '=>') {
 				return `<span class="${styles.arrow}">${escapeHtml(token)}</span>`
 			}
 
-			// 11. 函数调用和标识符
+			// 10. 函数调用和标识符
 			if (/^[a-zA-Z_$][\w$]*$/.test(token)) {
 				return `<span class="${styles.identifier}">${escapeHtml(token)}</span>`
 			}
 
-			// 12. 属性访问
+			// 11. 属性访问
 			if (/^\.[a-zA-Z_$][\w$]*$/.test(token)) {
 				return `<span class="${styles.property}">${escapeHtml(token)}</span>`
 			}
 
-			// 13. 运算符
+			// 12. 运算符
 			if (/^[+\-*/%&|^!~<>=?:]+$/.test(token)) {
 				return `<span class="${styles.operator}">${escapeHtml(token)}</span>`
 			}
 
-			// 14. 其他符号，需要转义
+			// 13. 其他符号，需要转义
 			return escapeHtml(token)
 		})
 		.join('')
